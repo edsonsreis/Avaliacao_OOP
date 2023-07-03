@@ -9,13 +9,14 @@ import java.util.List;
 
 public class EmprestimoController {
     private EmprestimoRepository emprestimoRepository;
+    private EmprestimoController livrosRepository;
 
     public EmprestimoController(EmprestimoRepository emprestimoRepo) {
         this.emprestimoRepository = emprestimoRepo;
     }
 
     public void realizarEmprestimo(String tituloLivro, String nomeUsuario) {
-        List<Livro> livros = tituloLivro.listarLivros();
+        List<Livro> livros = livrosRepository.listarLivros();
         for (Livro livro : livros) {
             if (livro.getTitulo().equals(tituloLivro)) {
                 Usuario usuario = new Usuario(nomeUsuario);
@@ -28,7 +29,7 @@ public class EmprestimoController {
     }
 
     public void realizarDevolucao(String tituloLivro) {
-        List<Livro> livros = livroRepo.listarLivros();
+        List<Livro> livros = livrosRepository.listarLivros();
         for (Livro livro : livros) {
             if (livro.getTitulo().equals(tituloLivro)) {
                 Emprestimo emprestimo = new Emprestimo(livro, null);
@@ -37,5 +38,8 @@ public class EmprestimoController {
             }
         }
         System.out.println("Livro não encontrado: " + tituloLivro);
+    }
+    public List<Livro> listarLivros() {
+        return livrosRepository.listarLivros();
     }
 }
